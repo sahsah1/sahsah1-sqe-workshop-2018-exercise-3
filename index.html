@@ -1,62 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
+<head>
+    <meta charset="UTF-8">
 
-        <style>
-            table {
-                width: 100%;
-                height: 100%;
-            }
+    <style>
+        table {
+            width: 100%;
+            height: 100%;
+        }
 
-            .textAreaWrapper {
-                width: 100%;
-                height: 80vh;
-            }
+        .textAreaWrapper {
+            width: 80%;
+            height: 50vh;
+        }
 
-            textarea {
-                width: 80%;
-                height: 95%;
-            }
-        </style>
-    </head>
-    <body>
-        <table>
-            <tr>
-                <td>
-                    <div>
-                        <label>Enter code here</label>
-                    </div>
-                </td>
-                <td>
-                    <div>
-                        <label>Parsed code here</label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="textAreaWrapper">
-                        <textarea id="codePlaceholder" title="Enter code here"></textarea>
-                    </div>
-                </td>
-                <td>
-                    <div class="textAreaWrapper">
-                        <textarea id="parsedCode" title="Parse code"></textarea>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>
-                        <button id="codeSubmissionButton">Parse code</button>
-                    </div>
-                </td>
-                <td>
-                </td>
-            </tr>
-        </table>
+        .textAreaWrap {
+            width: 100%;
+            height: 50vh;
+        }
 
-        <script src="dist/bundle.js"></script>
-    </body>
+        textarea {
+            width: 100%;
+            height: 95%;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <tr>
+        <td>
+            <div>
+                <label>Enter code here</label>
+            </div>
+        </td>
+        <td>
+            <div>
+                <label>Parsed code here</label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <div class="textAreaWrapper">
+                <textarea id="codePlaceholder" title="Enter code here"></textarea>
+            </div>
+        </td>
+        <td>
+            <div class="textAreaWrap" id="myDiv" contenteditable="true">
+                <!--<textarea id="parsedCode" title="Parse code"></textarea>-->
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div>
+                <button id="codeSubmissionButton">Parse code</button>
+            </div>
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div>
+                        <pre>
+                            Input format is x,y,z
+                        </pre>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="textAreaWrapper">
+                <textarea id="inputPlaceholder" title="Enter input here"></textarea>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<script src="dist/bundle.js"></script>
+</body>
 </html>
