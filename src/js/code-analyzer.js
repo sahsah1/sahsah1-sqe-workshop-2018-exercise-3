@@ -11,8 +11,11 @@ var numberOfNodes = 0;
 var parameters = [];
 var codeLines = [];
 var reachableNodes = {};
+var numOfExit = 0;
 
 function setParams(parsedCode,input) {
+    valueMap = {};
+    parameters.length = 0;
     let inputs = input.split(',');
     let params = parsedCode.body[0].params;
     for (var i=0;i<params.length;i++){
@@ -22,8 +25,20 @@ function setParams(parsedCode,input) {
     }
 }
 
+function getParams() {
+    return parameters;
+}
+
+function getCodeLines() {
+    return codeLines;
+}
+
 function setNumOfNodes(number) {
     numberOfNodes = number;
+}
+
+function getNumOfNodes() {
+    return numberOfNodes;
 }
 
 function makeGraph(parsedCode){
@@ -35,9 +50,9 @@ function cfgToDot(cfg, codeToParse){
 }
 
 function alterDot(dot) {
-    valueMap.length = 0;
     codeLines.length = 0;
-    reachableNodes.length = 0;
+    reachableNodes = {};
+    numOfExit = 0;
 
     removeExceptions(dot);
     removeInitials(dot);
@@ -100,7 +115,11 @@ function removeInitials(dot) {
 }
 
 function isInitial(str) {
-    if(str.includes('n0') || str.includes('n' + (numberOfNodes - 1))){
+    if(str.includes('exit')){
+        var temp = str.split(' [');
+        numOfExit = temp[0].slice(1);
+    }
+    if(str.includes('n0') || str.includes('n' + numOfExit)){
         return true;
     }
     return false;
@@ -200,7 +219,7 @@ function insertMerge(dot,j) {
 }
 
 function colorPath(dot,node) {
-    dot[node-1] = dot[node-1].replace('[', '[style=filled color=green ');
+    node = fillNode(dot,node);
     if(reachableNodes[node].length==1){
         if(isNotMerge(node)){
             var temp = codeLines[node-1].split(' = ');
@@ -220,9 +239,21 @@ function colorPath(dot,node) {
     }
 }
 
+function fillNode(dot,node) {
+    if(!dot[node-1].includes('->')) {
+        dot[node - 1] = dot[node - 1].replace(' [', ' [style=filled color=green ');
+        return node;
+    }
+    else{
+        dot[node - 2] = dot[node - 2].replace(' [', ' [style=filled color=green ');
+        return node-1;
+    }
+}
+
 function replaceVars(str) {
     for(var key in valueMap){
-        str = str.replace(key,valueMap[key]);
+        str = str.replace(key + ' ',valueMap[key] + ' ');
+        str = str.replace(' ' + key,' ' + valueMap[key]);
     }
     return str;
 }
@@ -235,4 +266,6 @@ function isNotMerge(node){
 }
 
 
-export {parseCode,cfgToDot,makeGraph,alterDot,setNumOfNodes,colorPath,setParams};
+export {parseCode,cfgToDot,makeGraph,alterDot,setNumOfNodes,colorPath,setParams,getParams,getNumOfNodes,
+    removeExceptions,removeInitials,makeShapes,replaceLet,setEdgesForNode,setCodeForNode,getCodeLines,
+    reachableNodes,nodeNumbering,addMergeNodes};
